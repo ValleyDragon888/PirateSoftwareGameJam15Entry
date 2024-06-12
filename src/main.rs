@@ -1,5 +1,7 @@
 use macroquad::prelude::*;
 
+mod collisions;
+
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
     let mut x = 0f32;
@@ -12,7 +14,6 @@ async fn main() {
         x += 1f32;
 
         draw_text("IT WORKS!", 20.0, 20.0, 30.0, DARKGRAY);
-
         next_frame().await
     }
 }
