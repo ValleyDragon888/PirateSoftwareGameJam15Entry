@@ -1,15 +1,15 @@
 use macroquad::color::Color;
-use crate::collisions::point::Point;
+use macroquad::math::Vec2;
 use macroquad::shapes::draw_line;
 
 pub struct Line {
-    pub p1: Point,
-    pub p2: Point
+    pub p1: Vec2,
+    pub p2: Vec2
 }
 
 impl Line {
     pub fn new(x1: f32, y1: f32, x2: f32, y2: f32) -> Line {
-        Line { p1: Point {x: x1, y: y1}, p2: Point {x: x2, y: y2}  }
+        Line { p1: Vec2 {x: x1, y: y1}, p2: Vec2 {x: x2, y: y2}  }
     }
 
     pub fn gradient(&self) -> f32 {
