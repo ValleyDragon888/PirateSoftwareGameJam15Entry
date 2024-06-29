@@ -1,23 +1,37 @@
-use macroquad::prelude::*;
+#![feature(tuple_trait)]
 
+use macroquad::prelude::*;
+use bevy_ecs::prelude::*;
 mod collisions;
 mod maths;
+mod app;
 
 use collisions::line::Line;
 
+#[derive(Component)]
+struct Position { x: f32, y: f32 }
+
+#[derive(Component)]
+struct C {}
+
+fn hello() {
+    println!("Hello")
+}
+
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
-    let mut x = 0f32;
-    let line  = Line::new(0f32, 0f32, 20f32, 20f32);
-    let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
+    let mut world = World::new();
+    let mut update_schedule = Schedule::default();
+    update_schedule.add_systems(hello);
+    world.spawn(
+        (
+            Position {x:0.0, y:0.0},
+            C {}
+        )
+    );
     loop {
         clear_background(RED);
-        draw_circle(x, screen_height() - 30.0, 15.0, YELLOW);
-        x += 1f32;
-
-        draw_text("IT WORKS!", 20.0, 20.0, 30.0, DARKGRAY);
-        draw_texture(&texture, 100., 100., WHITE);
-        line.draw(10.0, GREEN);
+        update_schedule.run(&mut world);
         next_frame().await
     }
 }
