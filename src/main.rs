@@ -5,6 +5,7 @@ use bevy_ecs::prelude::*;
 mod collisions;
 mod maths;
 mod app;
+use app::App;
 
 use collisions::line::Line;
 
@@ -20,18 +21,7 @@ fn hello() {
 
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
-    let mut world = World::new();
-    let mut update_schedule = Schedule::default();
-    update_schedule.add_systems(hello);
-    world.spawn(
-        (
-            Position {x:0.0, y:0.0},
-            C {}
-        )
-    );
-    loop {
-        clear_background(RED);
-        update_schedule.run(&mut world);
-        next_frame().await
-    }
+    let mut app = App::new();
+    app.update_schedule.add_systems(hello);
+    app.run().await
 }
