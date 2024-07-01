@@ -15,7 +15,6 @@ impl ScalingScalar {
         match self.reference {
             ScalingScalarReferences::WIDTH => { target = Option::from(screen_width()) }
             ScalingScalarReferences::HEIGHT => { target = Option::from(screen_height()) }
-            _ => { panic!("ScalingScalar is TRYING to re-scale, but SOMEONE managed to ---- the code SO MUCH that you have inputted an enum value THAT DOES NOT EXIST.") }
         }
         // I'm not sure if f32 has enough presicion. maybe use https://crates.io/crates/fraction
         // Actually I think its fine :)

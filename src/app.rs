@@ -1,9 +1,6 @@
-use std::marker::Tuple;
 use bevy_ecs::prelude::Schedule;
 use bevy_ecs::world::World;
-use macroquad::miniquad::start;
 use macroquad::window::next_frame;
-use crate::hello;
     pub(crate) struct App {
     pub world: World,
     pub update_schedule: Schedule,
