@@ -4,8 +4,7 @@ use bevy_ecs::world::World;
 use macroquad::miniquad::start;
 use macroquad::window::next_frame;
 use crate::hello;
-
-pub(crate) struct App {
+    pub(crate) struct App {
     pub world: World,
     pub update_schedule: Schedule,
     pub render_schedule: Schedule,

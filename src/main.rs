@@ -19,9 +19,13 @@ fn hello() {
     println!("Hello")
 }
 
+fn hi() {
+    println!("Hi")
+}
+
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
     let mut app = App::new();
-    app.update_schedule.add_systems(hello);
+    app.update_schedule.add_systems((hello, hi).chain());
     app.run().await
 }

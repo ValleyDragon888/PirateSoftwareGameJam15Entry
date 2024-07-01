@@ -1,4 +1,3 @@
-use macroquad::prelude::Vec2;
 use macroquad::window::{screen_height, screen_width};
 
 pub enum ScalingScalarReferences {
