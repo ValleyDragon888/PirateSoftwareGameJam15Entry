@@ -46,6 +46,10 @@ fn render_circles(
     }
 }
 
+fn background() {
+    clear_background(GREEN);
+}
+
 fn move_circles(
     mut query: Query<&mut Position, With<Circle>>
 ) {
@@ -59,6 +63,6 @@ async fn main() {
     let mut app = App::new();
     app.startup_schedule.add_systems(create_circle);
     app.update_schedule.add_systems((print_circles, move_circles, (hello, hi).chain()));
-    app.render_schedule.add_systems(render_circles);
+    app.render_schedule.add_systems((background, render_circles).chain());
     app.run().await
 }
