@@ -62,7 +62,7 @@ fn move_circles(
 async fn main() {
     let mut app = App::new();
     app.startup_schedule.add_systems(create_circle);
-    app.update_schedule.add_systems((print_circles, move_circles, (hello, hi).chain()));
+    app.update_schedule.add_systems(move_circles);
     app.render_schedule.add_systems((background, render_circles).chain());
     app.run().await
 }
