@@ -1,8 +1,9 @@
+
 pub struct Entity {
     // I will need to use .iter()
-    components: Vec<Box<dyn Component>>
+    pub components: Vec<Box<dyn Component>>
 }
 
 pub trait Component {
-    fn id(&self);
+    fn id(&self)->i32 {0}
 }
