@@ -1,17 +1,6 @@
 use macroquad::prelude::*;
-
-struct Schedule<'a> {
-    systems: &'a Vec<&'a dyn Fn() -> ()>
-}
-
-impl<'a> Schedule<'a> {
-    fn run(&'a mut self) {
-        let systems = self.systems;
-        for func in systems {
-            func();
-        }
-    }
-}
+pub mod ecs;
+use ecs::schedule::Schedule;
 
 fn sys_1() {
     println!("sys 1 run");
