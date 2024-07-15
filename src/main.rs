@@ -1,18 +1,27 @@
 use macroquad::prelude::*;
 pub mod ecs;
 use ecs::schedule::Schedule;
-use ecs::entity::{Component, Entity};
+use ecs::entity::{self, Component, Entity};
 use ecs::world::{self, World};
+use ecs::query::Query::With;
 
 struct Enemy;
-impl Component for Enemy {}
+impl Component for Enemy {
+    fn id(&self) -> String {"Enemy".to_string()}
+}
 struct Position(f32, f32);
-impl Component for Position {}
+impl Component for Position {
+    fn id(&self) -> String {"Position".to_string()}
+}
 
 fn sys_1(world :&mut World) {
     println!("sys 1 run");
-    println!("{:?}", world.entity_pool.len());
-    println!("{:?}", world.entity_pool[0].components.len());
+    for entity in world.entity_pool.iter() {
+        if entity.contains_component("Ene") {println!("found")}
+        if entity.satisfies_query(vec!(With("En"))) { println!("whoop") }
+    }    
+    // println!("{:?}", world.entity_pool.len());
+    // println!("{:?}", world.entity_pool[0].components.len());
 }
 
 fn sys_2(_:&mut World) {
