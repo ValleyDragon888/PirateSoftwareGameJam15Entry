@@ -1,7 +1,9 @@
+use std::ops::{AddAssign, Div, Mul, Sub};
 use macroquad::math::{Vec2, vec2};
 use macroquad::prelude::screen_width;
 use macroquad::window::screen_height;
 
+#[derive(Debug)]
 pub struct Vec2s {
     pub x:f32,
     pub y:f32,
@@ -32,5 +34,49 @@ impl Vec2s {
     }
 }
 
+impl AddAssign<Vec2s> for Vec2s {
+    fn add_assign(&mut self, rhs: Vec2s) {
+        self.x += rhs.x;
+        self.y += rhs.y;
+    }
+}
+
+impl Sub<Vec2s> for &mut Vec2s {
+    type Output = Vec2s;
+
+    fn sub(self, rhs: Vec2s) -> Self::Output {
+        vec2s(self.x-rhs.x, self.y-rhs.y)
+    }
+}
+
+impl Sub<&mut Vec2s> for Vec2s {
+    type Output = Vec2s;
+
+    fn sub(self, rhs: &mut Vec2s) -> Self::Output {
+        vec2s(self.x-rhs.x, self.y-rhs.y)
+    }
+}
+
+impl Div<f32> for Vec2s {
+    type Output = Vec2s;
+
+    fn div(self, rhs: f32) -> Self::Output {
+        vec2s(self.x/rhs, self.y/rhs)
+    }
+}
+
+impl Mul<f32> for Vec2s {
+    type Output = Vec2s;
+
+    fn mul(self, rhs: f32) -> Self::Output {
+        vec2s(self.x*rhs, self.y*rhs)
+    }
+}
+
+impl Clone for Vec2s {
+    fn clone(&self) -> Self {
+        vec2s(self.x, self.y)
+    }
+}
 
 pub fn vec2s(x:f32, y:f32) -> Vec2s {return Vec2s{x:x, y:y}}

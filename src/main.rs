@@ -1,9 +1,9 @@
 mod sprite;
 
-use macroquad::miniquad::window::screen_size;
 use macroquad::prelude::*;
 use sprite::Player;
 use crate::maths::vec2s;
+use crate::sprite::Enemy;
 
 mod maths;
 
@@ -13,6 +13,11 @@ async fn main() {
     let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
     let mut player = Player {
         pos: vec2s(0.1, 0.1),
+        texture2d: texture
+    };
+    let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
+    let mut enemy = Enemy {
+        pos: vec2s(0.1, 0.2),
         texture2d: texture
     };
     loop {
@@ -28,7 +33,7 @@ async fn main() {
 
 
         player.update();
-        draw_circle(0.0, 0.0, 200.0, RED);
+        enemy.update(&mut player.pos);
         next_frame().await;
     }
 }

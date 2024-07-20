@@ -1,8 +1,6 @@
-use std::ops::AddAssign;
 use macroquad::color::RED;
 use macroquad::input::{is_key_down, KeyCode};
 use macroquad::prelude::{draw_circle, draw_texture, Texture2D, WHITE};
-use macroquad::window::{screen_height, screen_width};
 use crate::maths::Vec2s;
 
 pub struct Player {
@@ -35,8 +33,10 @@ pub struct Enemy {
 
 
 impl Enemy {
-    pub fn update(&mut self, player_pos: Vec2s) {
-        //self.pos +=
+    pub fn update(&mut self, mut player_pos: &mut Vec2s) {
+        let mut move_distance = player_pos - self.pos.clone();
+        self.pos += move_distance.normalised()*0.001;
+        //draw_line(self.pos.x(), self.pos.y(), move_distance.x(), move_distance.y(), 1.0, RED);
         draw_texture(&self.texture2d, self.pos.x(), self.pos.y(), WHITE);
     }
 }
