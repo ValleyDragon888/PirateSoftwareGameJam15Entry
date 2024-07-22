@@ -1,11 +1,13 @@
 mod sprite;
 
+use cooldown::Cooldown;
 use macroquad::prelude::*;
 use sprite::Player;
 use crate::maths::vec2s;
 use crate::sprite::Enemy;
 
 mod maths;
+mod cooldown;
 
 
 #[macroquad::main("Desktop Build of Entry")]
@@ -13,12 +15,14 @@ async fn main() {
     let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
     let mut player = Player {
         pos: vec2s(0.1, 0.1),
-        texture2d: texture
+        texture2d: texture,
+        health: 50
     };
     let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
     let mut enemy = Enemy {
         pos: vec2s(0.1, 0.2),
-        texture2d: texture
+        texture2d: texture,
+        attack_cooldown: Cooldown {timer: 2.0, cooldown: 2.0}
     };
     loop {
         // // Set camera
@@ -33,7 +37,7 @@ async fn main() {
 
 
         player.update();
-        enemy.update(&mut player.pos);
+        enemy.update(&mut player);
         next_frame().await;
     }
 }
