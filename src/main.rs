@@ -16,7 +16,8 @@ async fn main() {
     let mut player = Player {
         pos: vec2s(0.1, 0.1),
         texture2d: texture,
-        health: 50
+        health: 50,
+        lantern_capacity: 50
     };
     let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
     let mut enemy = Enemy {
@@ -35,7 +36,7 @@ async fn main() {
         //
         // set_camera(&Camera2D::from_display_rect(Rect::new( 0.0, camera_size.y, camera_size.x, -camera_size.y)));
 
-
+        clear_background(WHITE);
         player.update();
         enemy.update(&mut player);
         next_frame().await;

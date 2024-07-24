@@ -8,7 +8,7 @@ pub struct Cooldown {
 impl Cooldown {
     pub fn attempt_use(&mut self) -> bool {
         if self.timer <= 0.0 {
-            self.timer += self.cooldown;
+            self.timer = self.cooldown;
             return true;
         } else {
             return false;
