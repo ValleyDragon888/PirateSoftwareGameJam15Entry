@@ -24,7 +24,7 @@ pub enum DeathReason {
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
     let mut game_state = GameState::Playing;
-    let mut player = Player::new();
+    let mut player = Player::new(load_texture("assets/thor-highquality.png").await.unwrap());
     let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
     let mut enemy = Enemy {
         pos: vec2s(0.1, 0.2),
@@ -53,7 +53,7 @@ async fn main() {
             GameState::Dead(ref reason) => {
                 do_death_screen(reason).await;
                 game_state = Playing;
-                player = Player::new()
+                player = Player::new(load_texture("assets/thor-highquality.png").await.unwrap())
             }
         }
 

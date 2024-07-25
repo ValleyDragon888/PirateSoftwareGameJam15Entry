@@ -1,12 +1,11 @@
 use macroquad::color::{BLACK, BLUE, DARKBLUE, MAROON, RED};
 use macroquad::input::{is_key_down, KeyCode};
-use macroquad::prelude::{draw_circle, draw_texture, load_texture, Texture2D, WHITE};
+use macroquad::prelude::{draw_circle, draw_texture, Texture2D, WHITE};
 use macroquad::shapes::draw_rectangle;
 use macroquad::text::draw_text;
 use macroquad::window::{screen_height, screen_width};
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
-use futures::executor::block_on;
 
 pub struct Player {
     pub pos:Vec2s,
@@ -55,9 +54,7 @@ impl Player {
                   , screen_width()/2.0, screen_height()-4.0, 28.0, BLACK);
     }
 
-    pub(crate) fn new() -> Player {
-        let mut texture_future = load_texture("assets/thor-highquality.png");
-        let texture = block_on(texture_future).expect("TODO: wat de frick");
+    pub(crate) fn new(texture: Texture2D) -> Player {
         return Player {
             pos: vec2s(0.1, 0.1),
             texture2d: texture,
