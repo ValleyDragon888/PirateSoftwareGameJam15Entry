@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 macroquad = { git = "https://github.com/not-fl3/macroquad.git", rev="7d49714" }
-quad-rand = "0.2.1"
+rand = "0.8.5"

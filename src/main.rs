@@ -1,10 +1,9 @@
+use crate::enemy::Enemy;
 use std::process::exit;
-use cooldown::Cooldown;
 use macroquad::prelude::*;
 use player::Player;
 use crate::GameState::Playing;
-use crate::maths::vec2s;
-use enemy::Enemy;
+use crate::enemy::ZombieManager;
 
 mod maths;
 mod cooldown;
@@ -25,12 +24,11 @@ pub enum DeathReason {
 async fn main() {
     let mut game_state = GameState::Playing;
     let mut player = Player::new(load_texture("assets/thor-highquality.png").await.unwrap());
-    let texture: Texture2D = load_texture("assets/thor-highquality.png").await.unwrap();
-    let mut enemy = Enemy {
-        pos: vec2s(0.1, 0.2),
-        texture2d: texture,
-        attack_cooldown: Cooldown {timer: 2.0, cooldown: 2.0}
-    };
+    let mut zombie_textures = vec!();
+    for texture in Enemy::texture_names() {
+        zombie_textures.push(load_texture(&*texture).await.unwrap());
+    }
+    let mut enemy = ZombieManager::new(zombie_textures);
     loop {
         // // Set camera
         // let view_size = vec2(720.0f32, 240.0f32);
