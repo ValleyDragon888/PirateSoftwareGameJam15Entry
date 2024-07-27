@@ -1,6 +1,6 @@
 use macroquad::prelude::{draw_texture, Texture2D};
 use macroquad::color::WHITE;
-use rand::Rng;
+use quad_rand;
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
 use crate::player::Player;
@@ -65,10 +65,9 @@ impl ZombieManager {
 
     pub fn new(texture: Vec<Texture2D>) -> Self {
         let mut enemies = vec!();
-        let mut rng = rand::thread_rng();
         for _ in 0..10 {
             enemies.push(Enemy {
-                pos: vec2s(rng.gen_range(0.0..1.0), rng.gen_range(0.0..1.0)),
+                pos: vec2s(quad_rand::gen_range(0.0, 1.0), quad_rand::gen_range(0.0, 1.0)),
                 texture2d: texture.clone(),
                 attack_cooldown: Cooldown { timer: 2.0, cooldown: 2.0 },
                 animation_cooldown: Cooldown { timer: 0.25, cooldown: 0.25 },

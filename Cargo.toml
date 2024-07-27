@@ -8,5 +8,4 @@ edition = "2021"
 
 [dependencies]
 macroquad = { git = "https://github.com/not-fl3/macroquad.git", rev="7d49714" }
-rand = "0.8.5"
-getrandom = { version = "*", features = ["js"] }
+quad-rand = "0.2.1"
