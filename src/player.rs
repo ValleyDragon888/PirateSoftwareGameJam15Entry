@@ -1,6 +1,7 @@
 use macroquad::prelude::{draw_circle, draw_rectangle, draw_text, draw_texture, screen_height, screen_width, Texture2D};
 use macroquad::input::{is_key_down, KeyCode};
-use macroquad::color::{BLACK, BLUE, DARKBLUE, MAROON, RED, WHITE};
+use macroquad::color::{BLACK, BLUE, Color, DARKBLUE, MAROON, RED, WHITE};
+use macroquad::time::get_frame_time;
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
 
@@ -8,7 +9,7 @@ pub struct Player {
     pub pos:Vec2s,
     pub texture2d: Vec<Texture2D>,
     pub health:i8,
-    pub lantern_capacity: i8,
+    pub lantern_capacity: f32,
     pub animation_cooldown: Cooldown,
     pub current_frame: usize
 }
@@ -36,7 +37,15 @@ impl Player {
             }
         }
 
+        // Lantern updates
+        self.lantern_capacity -= get_frame_time();
+
+
+
         draw_texture(&self.texture2d.get_mut(self.current_frame).unwrap(), self.pos.x(), self.pos.y(), WHITE);
+
+
+
         // This is debug 0,0 on image. remove @ some point
         draw_circle(self.pos.x(), self.pos.y(), 10.0, RED);
         self.draw_health_and_lantern_bars();
@@ -59,7 +68,8 @@ impl Player {
         // draw health rectangle
         draw_rectangle(screen_width()/2.0, screen_height()-20.0, f32::from(self.lantern_capacity)* one_unit, 20.0, BLUE);
         // I still hate this hack, but this time it's copied code AS WELL!
-        draw_text(&("Lantern Capacity: ".to_owned()+&self.lantern_capacity.to_string()+"%")
+        let lantern_capacity_rounded = self.lantern_capacity.clone().round();
+        draw_text(&("Lantern Capacity: ".to_owned()+ &*lantern_capacity_rounded.to_string() +"%")
                   , screen_width()/2.0, screen_height()-4.0, 28.0, BLACK);
     }
 
@@ -68,7 +78,7 @@ impl Player {
             pos: vec2s(0.1, 0.1),
             texture2d: texture,
             health: 100,
-            lantern_capacity: 100,
+            lantern_capacity: 100.0,
             animation_cooldown: Cooldown {timer: 0.1, cooldown: 0.1},
             current_frame: 0
         };
@@ -81,5 +91,15 @@ impl Player {
         }
         println!("{:?}", names);
         return names
+    }
+    
+    pub fn get_lantern_bgcol(&self) -> Color {
+        let brightness = self.lantern_capacity.clone().clamp(0.0, 100.0)/100.0;
+        Color {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0-brightness,
+        }
     }
 }

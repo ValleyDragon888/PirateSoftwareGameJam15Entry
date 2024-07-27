@@ -49,9 +49,10 @@ async fn main() {
                 clear_background(WHITE);
                 player.update();
                 enemy.update(&mut player);
+                draw_rectangle(0.0, 0.0, screen_width(), screen_height()-20.0, player.get_lantern_bgcol());
                 next_frame().await;
                 if player.health <= 0  { game_state = GameState::Dead(DeathReason::HealthRanOut) }
-                else if player.lantern_capacity <= 0  { game_state = GameState::Dead(DeathReason::LanternRanOut) }
+                else if player.lantern_capacity <= 0.0  { game_state = GameState::Dead(DeathReason::LanternRanOut) }
             }
             GameState::Dead(ref reason) => {
                 do_death_screen(reason).await;

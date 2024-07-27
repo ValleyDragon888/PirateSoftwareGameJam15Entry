@@ -36,8 +36,11 @@ impl Enemy {
         }
 
         // move towards player
-        let mut move_distance = player_pos - &mut self.pos.clone();
-        self.pos += move_distance.normalised()*0.001;
+        let mut adjusted_player_pos = vec2s(player_pos.x+quad_rand::gen_range(-0.1, 0.1),
+                                            player_pos.y+quad_rand::gen_range(-0.1, 0.1));
+        let mut move_distance = adjusted_player_pos - &mut self.pos.clone();
+        let speed = quad_rand::gen_range(-0.001, 0.003);
+        self.pos += move_distance.normalised()*speed;
         //draw_line(self.pos.x(), self.pos.y(), move_distance.x(), move_distance.y(), 1.0, RED);
         draw_texture(&self.texture2d.get_mut(self.current_frame).unwrap(), self.pos.x(), self.pos.y(), WHITE);
     }
