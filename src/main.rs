@@ -23,7 +23,12 @@ pub enum DeathReason {
 #[macroquad::main("Desktop Build of Entry")]
 async fn main() {
     let mut game_state = GameState::Playing;
-    let mut player = Player::new(load_texture("assets/thor-highquality.png").await.unwrap());
+    let mut player_textures = vec!();
+    for texture in Player::texture_names() {
+        player_textures.push(load_texture(&*texture).await.unwrap());
+    }
+    let mut player = Player::new(player_textures);
+
     let mut zombie_textures = vec!();
     for texture in Enemy::texture_names() {
         zombie_textures.push(load_texture(&*texture).await.unwrap());
@@ -51,7 +56,17 @@ async fn main() {
             GameState::Dead(ref reason) => {
                 do_death_screen(reason).await;
                 game_state = Playing;
-                player = Player::new(load_texture("assets/thor-highquality.png").await.unwrap())
+                let mut player_textures = vec!();
+                for texture in Player::texture_names() {
+                    player_textures.push(load_texture(&*texture).await.unwrap());
+                }
+                player = Player::new(player_textures);
+
+                let mut zombie_textures = vec!();
+                for texture in Enemy::texture_names() {
+                    zombie_textures.push(load_texture(&*texture).await.unwrap());
+                }
+                enemy = ZombieManager::new(zombie_textures);
             }
         }
 
