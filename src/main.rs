@@ -1,15 +1,15 @@
-mod sprite;
-
 use std::process::exit;
 use cooldown::Cooldown;
 use macroquad::prelude::*;
-use sprite::Player;
+use player::Player;
 use crate::GameState::Playing;
 use crate::maths::vec2s;
-use crate::sprite::Enemy;
+use enemy::Enemy;
 
 mod maths;
 mod cooldown;
+mod player;
+mod enemy;
 
 pub enum GameState {
     Playing,
