@@ -67,8 +67,8 @@ impl Player {
         return Player {
             pos: vec2s(0.1, 0.1),
             texture2d: texture,
-            health: 50,
-            lantern_capacity: 50,
+            health: 100,
+            lantern_capacity: 100,
             animation_cooldown: Cooldown {timer: 0.1, cooldown: 0.1},
             current_frame: 0
         };
