@@ -1,4 +1,4 @@
-use macroquad::color::{BLACK, WHITE};
+use macroquad::color::{BLACK, BLUE, WHITE};
 use macroquad::input::{is_key_down, mouse_position, MouseButton};
 use macroquad::math::{Rect, vec2};
 use macroquad::prelude::{draw_texture, is_mouse_button_down, KeyCode, RED, screen_height, Texture2D};
@@ -63,9 +63,10 @@ impl PotionInventorySlot {
     pub fn render(&mut self, x:f32, y:f32) {
         // draw cooldown
         let width = 40.0/(self.cooldown.cooldown/self.cooldown.timer);
-        draw_rectangle(x, y-30.0, width.clamp(0.0, 40.0), 40.0, RED);
+        draw_rectangle(x, y-30.0, 40.0, 40.0, BLUE); // background
+        draw_rectangle(x, y-30.0, width.clamp(0.0, 40.0), 40.0, RED); // actual bar
 
-        draw_text(&*self.key_code_string, x, y, 50.0, BLACK);
+        draw_text(&*self.key_code_string, x+10.0, y, 50.0, BLACK);
 
         draw_texture(&self.texture2d, x, y+20.0, WHITE);
 
