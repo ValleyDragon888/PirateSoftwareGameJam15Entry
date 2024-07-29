@@ -5,6 +5,7 @@ use player::Player;
 use crate::GameState::Playing;
 use crate::enemy::ZombieManager;
 use crate::potions::{PotionInventorySlot, PotionType};
+use crate::constants::FLOOR_WIDTH_AND_HEIGHT;
 
 mod maths;
 mod cooldown;
@@ -39,6 +40,7 @@ async fn main() {
     let mut enemy = ZombieManager::new(zombie_textures);
 
     let mut potionslot = PotionInventorySlot::new(load_texture("assets/potions/0.png").await.unwrap(), PotionType::Damage);
+    let floor = load_texture("assets/floor/0.png").await.unwrap();
     loop {
         // // Set camera
         // let view_size = vec2(720.0f32, 240.0f32);
@@ -52,6 +54,17 @@ async fn main() {
         match game_state {
             GameState::Playing => {
                 clear_background(WHITE);
+
+                // render floor
+                let floors_needed_width = ((screen_width() as i32 / FLOOR_WIDTH_AND_HEIGHT) as f32).trunc() + 1.0;
+                let floors_needed_height = ((screen_height() as i32 / FLOOR_WIDTH_AND_HEIGHT) as f32).trunc() + 1.0;
+                for x in 0..floors_needed_width as i32 {
+                    for y in 0..floors_needed_height as i32 {
+                        draw_texture(&floor, x as f32*100.0, y as f32*100.0, WHITE);
+                    }
+                }
+                // draw_texture(&floor, 0.0, 0.0, WHITE);
+
                 player.update();
                 enemy.update(&mut player);
 

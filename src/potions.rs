@@ -62,15 +62,15 @@ impl PotionInventorySlot {
 
     pub fn render(&mut self, x:f32, y:f32) {
         // draw cooldown
-        let width = 20.0/(self.cooldown.cooldown/self.cooldown.timer);
-        draw_rectangle(x, y-30.0, width.clamp(0.0, 20.0), 40.0, RED);
+        let width = 40.0/(self.cooldown.cooldown/self.cooldown.timer);
+        draw_rectangle(x, y-30.0, width.clamp(0.0, 40.0), 40.0, RED);
 
         draw_text(&*self.key_code_string, x, y, 50.0, BLACK);
 
         draw_texture(&self.texture2d, x, y+20.0, WHITE);
 
         // draw box around
-        draw_rectangle_lines(x, y-30.0, 20.0, y+40.0, 5.0, BLACK);
+        draw_rectangle_lines(x, y-30.0, 40.0, y+40.0, 5.0, BLACK);
         
         // tooltip
         if Rect::new(x, y-30.0, 20.0, y+40.0).contains(vec2(mouse_position().0, mouse_position().1)) {

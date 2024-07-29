@@ -1,1 +1,2 @@
 pub const DAMAGE_POTION_RADIUS: f32 = 100.0;
+pub const FLOOR_WIDTH_AND_HEIGHT: i32 = 100;
