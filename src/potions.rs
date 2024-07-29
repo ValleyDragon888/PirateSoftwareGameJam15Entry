@@ -1,6 +1,7 @@
 use macroquad::color::{BLACK, WHITE};
 use macroquad::input::{is_key_down, mouse_position, MouseButton};
-use macroquad::prelude::{draw_texture, is_mouse_button_down, KeyCode, RED, Texture2D};
+use macroquad::math::{Rect, vec2};
+use macroquad::prelude::{draw_texture, is_mouse_button_down, KeyCode, RED, screen_height, Texture2D};
 use macroquad::shapes::{draw_circle_lines, draw_rectangle, draw_rectangle_lines};
 use macroquad::text::draw_text;
 use crate::cooldown::Cooldown;
@@ -70,6 +71,11 @@ impl PotionInventorySlot {
 
         // draw box around
         draw_rectangle_lines(x, y-30.0, 20.0, y+40.0, 5.0, BLACK);
+        
+        // tooltip
+        if Rect::new(x, y-30.0, 20.0, y+40.0).contains(vec2(mouse_position().0, mouse_position().1)) {
+            draw_text("Damage Potion. Damages zombies. Duh.", 0.0, screen_height() - 40.0, 50.0, BLACK)
+        }
 
         if self.placing {
             draw_texture(&self.texture2d, mouse_position().0, mouse_position().1, WHITE);

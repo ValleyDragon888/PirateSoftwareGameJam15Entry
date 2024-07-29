@@ -54,7 +54,16 @@ async fn main() {
                 clear_background(WHITE);
                 player.update();
                 enemy.update(&mut player);
+
+                // lantern
                 draw_rectangle(0.0, 0.0, screen_width(), screen_height()-20.0, player.get_lantern_bgcol());
+                // let bgcol = player.get_lantern_bgcol();
+                // for x in 0..screen_width() as i32 {
+                //     for y in 0..screen_height() as i32 {
+                //         draw_rectangle(x as f32, y as f32, 1.0, 1.0, bgcol)
+                //     }
+                // }
+
                 potionslot.update(100.0, 50.0,&mut enemy);
                 next_frame().await;
                 if player.health <= 0  { game_state = GameState::Dead(DeathReason::HealthRanOut) }
@@ -74,6 +83,7 @@ async fn main() {
                     zombie_textures.push(load_texture(&*texture).await.unwrap());
                 }
                 enemy = ZombieManager::new(zombie_textures);
+                potionslot = PotionInventorySlot::new(load_texture("assets/potions/0.png").await.unwrap(), PotionType::Damage);
             }
         }
 
