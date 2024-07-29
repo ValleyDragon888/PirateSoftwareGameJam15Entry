@@ -4,11 +4,14 @@ use macroquad::prelude::*;
 use player::Player;
 use crate::GameState::Playing;
 use crate::enemy::ZombieManager;
+use crate::potions::{PotionInventorySlot, PotionType};
 
 mod maths;
 mod cooldown;
 mod player;
 mod enemy;
+mod potions;
+mod constants;
 
 pub enum GameState {
     Playing,
@@ -34,6 +37,8 @@ async fn main() {
         zombie_textures.push(load_texture(&*texture).await.unwrap());
     }
     let mut enemy = ZombieManager::new(zombie_textures);
+
+    let mut potionslot = PotionInventorySlot::new(load_texture("assets/potions/0.png").await.unwrap(), PotionType::Damage);
     loop {
         // // Set camera
         // let view_size = vec2(720.0f32, 240.0f32);
@@ -50,6 +55,7 @@ async fn main() {
                 player.update();
                 enemy.update(&mut player);
                 draw_rectangle(0.0, 0.0, screen_width(), screen_height()-20.0, player.get_lantern_bgcol());
+                potionslot.update(100.0, 50.0,&mut enemy);
                 next_frame().await;
                 if player.health <= 0  { game_state = GameState::Dead(DeathReason::HealthRanOut) }
                 else if player.lantern_capacity <= 0.0  { game_state = GameState::Dead(DeathReason::LanternRanOut) }

@@ -1,0 +1,1 @@
+pub const DAMAGE_POTION_RADIUS: f32 = 100.0;

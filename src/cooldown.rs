@@ -1,5 +1,6 @@
 use macroquad::time::get_frame_time;
 
+#[derive(Clone)]
 pub struct Cooldown {
     pub timer: f32,
     pub cooldown: f32

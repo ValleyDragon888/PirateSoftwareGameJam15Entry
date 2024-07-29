@@ -1,16 +1,20 @@
-use macroquad::prelude::{draw_texture, Texture2D};
+use macroquad::prelude::{draw_texture, Texture2D, vec2};
 use macroquad::color::WHITE;
 use quad_rand;
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
 use crate::player::Player;
+use crate::potions::PotionInstance;
+use crate::constants::DAMAGE_POTION_RADIUS;
 
+#[derive(Clone)]
 pub struct Enemy {
     pub pos:Vec2s,
     pub texture2d: Vec<Texture2D>,
     pub attack_cooldown: Cooldown,
     pub animation_cooldown: Cooldown,
-    pub current_frame: usize
+    pub current_frame: usize,
+    pub killed: bool
 }
 
 impl Enemy {
@@ -61,6 +65,12 @@ pub struct ZombieManager {
 
 impl ZombieManager {
     pub fn update(&mut self, player: &mut Player) {
+        let mut new_zombie_vec = vec!();
+        for zombie in self.zombies.clone() {
+            if !zombie.killed { new_zombie_vec.push(zombie) }
+        }
+        self.zombies = new_zombie_vec;
+
         for zombie in self.zombies.iter_mut() {
             zombie.update(player);
         }
@@ -74,11 +84,26 @@ impl ZombieManager {
                 texture2d: texture.clone(),
                 attack_cooldown: Cooldown { timer: 2.0, cooldown: 2.0 },
                 animation_cooldown: Cooldown { timer: 0.25, cooldown: 0.25 },
-                current_frame: 0
+                current_frame: 0,
+                killed: false
             });
         }
         return ZombieManager {
             zombies: enemies
+        }
+    }
+
+    pub fn potion(&mut self, potion_instance: PotionInstance) {
+        match potion_instance {
+            PotionInstance::Damage(x, y) => {
+                for mut zombie in &mut self.zombies {
+                    println!("{:?}", zombie.pos.get_screen_position_vec2().distance(vec2(x, y)));
+                    if zombie.pos.get_screen_position_vec2().distance(vec2(x, y)) <= DAMAGE_POTION_RADIUS {
+                        zombie.killed = true;
+                        println!("zombo eliminated")
+                    }
+                }
+            }
         }
     }
 }
