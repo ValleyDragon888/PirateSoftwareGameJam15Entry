@@ -87,7 +87,7 @@ async fn main() {
                 else if player.lantern_capacity <= 0.0  { game_state = GameState::Dead(DeathReason::LanternRanOut) }
             }
             GameState::Dead(ref reason) => {
-                do_death_screen(reason).await;
+                do_death_screen(reason, enemy.zombies_killed).await;
                 game_state = Playing;
                 let mut player_textures = vec!();
                 for texture in Player::texture_names() {
@@ -107,7 +107,7 @@ async fn main() {
     }
 }
 
-async fn do_death_screen(reason: &DeathReason) {
+async fn do_death_screen(reason: &DeathReason, zombies_killed:u8) {
     loop {
         clear_background(BLACK);
 
@@ -121,6 +121,8 @@ async fn do_death_screen(reason: &DeathReason) {
         };
         draw_text_center(message, 250.0, 50, WHITE);
         draw_text_center("\"Maybe stay alive next time.\"", 270.0, 30, WHITE);
+
+        draw_text_center(&*("You killed: ".to_owned() + &*zombies_killed.to_string() + &*" zombies.".to_owned()), 470.0, 50, RED);
 
         // Buttons
         let respawn_size = draw_text_center("Re-Spawn", 350.0, 100, BLUE);

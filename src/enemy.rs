@@ -1,6 +1,5 @@
 use macroquad::prelude::{draw_texture, Texture2D, vec2};
 use macroquad::color::WHITE;
-use macroquad::window::{screen_height, screen_width};
 use quad_rand;
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
@@ -61,7 +60,8 @@ impl Enemy {
 }
 
 pub struct ZombieManager {
-    pub zombies: Vec<Enemy>
+    pub zombies: Vec<Enemy>,
+    pub zombies_killed: u8
 }
 
 impl ZombieManager {
@@ -72,7 +72,9 @@ impl ZombieManager {
                 new_zombie_vec.push(zombie)
             } else {
                 // zombie is killed, we can add shtuff to the lantern
-                player.lantern_capacity += 3.0
+                player.lantern_capacity += 2.0;
+                player.lantern_capacity = player.lantern_capacity.clamp(0.0, 100.0);
+                self.zombies_killed += 1
             }
         }
         self.zombies = new_zombie_vec;
@@ -88,7 +90,8 @@ impl ZombieManager {
             enemies.push(Self::new_zombie(texture.clone()));
         }
         return ZombieManager {
-            zombies: enemies
+            zombies: enemies,
+            zombies_killed: 0
         }
     }
 

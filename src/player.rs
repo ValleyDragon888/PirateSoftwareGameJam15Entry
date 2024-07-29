@@ -1,4 +1,4 @@
-use macroquad::prelude::{draw_circle, draw_rectangle, draw_text, draw_texture, screen_height, screen_width, Texture2D};
+use macroquad::prelude::{draw_rectangle, draw_text, draw_texture, screen_height, screen_width, Texture2D};
 use macroquad::input::{is_key_down, KeyCode};
 use macroquad::color::{BLACK, BLUE, Color, DARKBLUE, MAROON, RED, WHITE};
 use macroquad::time::get_frame_time;
@@ -40,14 +40,8 @@ impl Player {
         // Lantern updates
         self.lantern_capacity -= get_frame_time();
 
-
-
         draw_texture(&self.texture2d.get_mut(self.current_frame).unwrap(), self.pos.x(), self.pos.y(), WHITE);
 
-
-
-        // This is debug 0,0 on image. remove @ some point
-        draw_circle(self.pos.x(), self.pos.y(), 10.0, RED);
         self.draw_health_and_lantern_bars();
     }
 
