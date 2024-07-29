@@ -37,7 +37,7 @@ async fn main() {
     for texture in Enemy::texture_names() {
         zombie_textures.push(load_texture(&*texture).await.unwrap());
     }
-    let mut enemy = ZombieManager::new(zombie_textures);
+    let mut enemy = ZombieManager::new(zombie_textures.clone());
 
     let mut potionslot = PotionInventorySlot::new(load_texture("assets/potions/0.png").await.unwrap(), PotionType::Damage);
     let floor = load_texture("assets/floor/0.png").await.unwrap();
@@ -63,7 +63,11 @@ async fn main() {
                         draw_texture(&floor, x as f32*100.0, y as f32*100.0, WHITE);
                     }
                 }
-                // draw_texture(&floor, 0.0, 0.0, WHITE);
+
+                if quad_rand::gen_range(0, 101) == 10 {
+                    println!("add");
+                    enemy.zombies.push(ZombieManager::new_zombie(zombie_textures.clone()))
+                }
 
                 player.update();
                 enemy.update(&mut player);

@@ -1,5 +1,6 @@
 use macroquad::prelude::{draw_texture, Texture2D, vec2};
 use macroquad::color::WHITE;
+use macroquad::window::{screen_height, screen_width};
 use quad_rand;
 use crate::cooldown::Cooldown;
 use crate::maths::{Vec2s, vec2s};
@@ -67,7 +68,12 @@ impl ZombieManager {
     pub fn update(&mut self, player: &mut Player) {
         let mut new_zombie_vec = vec!();
         for zombie in self.zombies.clone() {
-            if !zombie.killed { new_zombie_vec.push(zombie) }
+            if !zombie.killed {
+                new_zombie_vec.push(zombie)
+            } else {
+                // zombie is killed, we can add shtuff to the lantern
+                player.lantern_capacity += 3.0
+            }
         }
         self.zombies = new_zombie_vec;
 
@@ -79,17 +85,45 @@ impl ZombieManager {
     pub fn new(texture: Vec<Texture2D>) -> Self {
         let mut enemies = vec!();
         for _ in 0..10 {
-            enemies.push(Enemy {
-                pos: vec2s(quad_rand::gen_range(0.0, 1.0), quad_rand::gen_range(0.0, 1.0)),
-                texture2d: texture.clone(),
-                attack_cooldown: Cooldown { timer: 2.0, cooldown: 2.0 },
-                animation_cooldown: Cooldown { timer: 0.25, cooldown: 0.25 },
-                current_frame: 0,
-                killed: false
-            });
+            enemies.push(Self::new_zombie(texture.clone()));
         }
         return ZombieManager {
             zombies: enemies
+        }
+    }
+
+    pub fn new_zombie(texture: Vec<Texture2D>) -> Enemy {
+        let side = quad_rand::gen_range(0, 4);
+        let mut x =0.0;
+        let mut y = 0.0;
+        match side {
+            0 => {
+                x = quad_rand::gen_range(0.0, 1.0);
+                y = 0.0;
+            }
+            1 => {
+                x = 1.0;
+                y = quad_rand::gen_range(0.0, 1.0)
+            }
+            2 => {
+                x = quad_rand::gen_range(0.0, 1.0);
+                y = 1.0;
+            }
+            3 => {
+                x = 0.0;
+                y = quad_rand::gen_range(0.0, 1.0)
+            }
+
+            _ => {panic!("number chosen for wall to spawn on not between 0-3")}
+        }
+        println!("{:?} {:?}", x, y);
+        Enemy {
+            pos: vec2s(x, y),
+            texture2d: texture.clone(),
+            attack_cooldown: Cooldown { timer: 2.0, cooldown: 2.0 },
+            animation_cooldown: Cooldown { timer: 0.25, cooldown: 0.25 },
+            current_frame: 0,
+            killed: false
         }
     }
 
