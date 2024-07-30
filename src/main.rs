@@ -1,5 +1,6 @@
 use crate::enemy::Enemy;
 use std::process::exit;
+use macroquad::audio::{load_sound, play_sound, PlaySoundParams};
 use macroquad::prelude::*;
 use player::Player;
 use crate::GameState::Playing;
@@ -41,6 +42,8 @@ async fn main() {
 
     let mut potionslot = PotionInventorySlot::new(load_texture("assets/potions/0.png").await.unwrap(), PotionType::Damage);
     let floor = load_texture("assets/floor/0.png").await.unwrap();
+    let sound = load_sound("assets/soundtrack/soundtrack.wav").await.unwrap();
+    play_sound(&sound, PlaySoundParams {looped: true, volume: 1.0});
     loop {
         // // Set camera
         // let view_size = vec2(720.0f32, 240.0f32);

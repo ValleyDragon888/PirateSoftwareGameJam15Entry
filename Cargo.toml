@@ -7,5 +7,5 @@ edition = "2021"
 #
 
 [dependencies]
-macroquad = { git = "https://github.com/not-fl3/macroquad.git", rev="7d49714" }
+macroquad = { git = "https://github.com/not-fl3/macroquad.git", rev="7d49714", features = ["audio"] }
 quad-rand = "0.2.1"
