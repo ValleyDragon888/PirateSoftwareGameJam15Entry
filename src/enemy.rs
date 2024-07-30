@@ -72,7 +72,7 @@ impl ZombieManager {
                 new_zombie_vec.push(zombie)
             } else {
                 // zombie is killed, we can add shtuff to the lantern
-                player.lantern_capacity += 2.0;
+                player.lantern_capacity += 1.5;
                 player.lantern_capacity = player.lantern_capacity.clamp(0.0, 100.0);
                 self.zombies_killed += 1
             }
